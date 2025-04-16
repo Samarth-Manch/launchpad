@@ -1,6 +1,5 @@
 package com.manch.launchpad.repositories.impl;
 
-import com.manch.launchpad.entities.MicroserviceEntity;
 import com.manch.launchpad.entities.ServiceEntity;
 import com.manch.launchpad.repositories.ServiceRepository;
 import jakarta.persistence.EntityManager;

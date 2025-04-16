@@ -14,8 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 @NoArgsConstructor
 public class VolumeEntity {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name="volume_name", updatable = false, nullable = false, unique = true)
     private String volumeName;
 

@@ -13,7 +13,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name="port")
 public class PortEntity {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name="id", insertable = true, updatable = false, unique = true, nullable = false)
     private String id;
 
