@@ -4,19 +4,30 @@ import com.manch.launchpad.commons.exceptions.LaunchpadException;
 import com.manch.launchpad.commons.responses.LaunchpadResponse;
 import com.manch.launchpad.commons.responses.ResponseInfoEnum;
 import com.manch.launchpad.models.MicroserviceModel;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.manch.launchpad.services.MicroserviceService;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/v1/microservice")
+@AllArgsConstructor
 public class MicroserviceResource {
+    MicroserviceService microserviceService;
 
-    @RequestMapping("/{microserviceId}")
-    public LaunchpadResponse<MicroserviceModel> getMicroservice(@PathVariable String microserviceId) {
-        if (microserviceId == null || microserviceId.isEmpty()) {
+    @RequestMapping(method = RequestMethod.POST)
+    public LaunchpadResponse<MicroserviceModel> getMicroservice(@RequestBody MicroserviceModel microserviceModel) {
+        MicroserviceModel microservice = microserviceService.createMicroservice(microserviceModel);
+        return LaunchpadResponse.ok(microservice);
+    }
+
+    @RequestMapping(value = "/{microserviceId}",method = RequestMethod.GET)
+    public LaunchpadResponse<MicroserviceModel> getMicroservice(@PathVariable int microserviceId) {
+        if (microserviceId == 0) {
             throw new LaunchpadException(ResponseInfoEnum.BAD_REQUEST, null);
         }
+
         MicroserviceModel microserviceModel = MicroserviceModel.builder()
                 .id(1)
                 .microserviceName("My Microservice")

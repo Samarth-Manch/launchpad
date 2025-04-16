@@ -3,10 +3,15 @@ package com.manch.launchpad.commons.exceptions;
 import com.manch.launchpad.commons.responses.LaunchpadResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@RestControllerAdvice
 public class LaunchpadExceptionHandler {
-    LaunchpadResponse<?> response;
+
+    @ExceptionHandler(Throwable.class)
     public ResponseEntity<LaunchpadResponse<?>> handle(Throwable exception) {
+        LaunchpadResponse<?> response;
         if (exception instanceof LaunchpadException launchpadException) {
             response = LaunchpadResponse.builder()
                     .responseCode(launchpadException.getResponseInfo().getResponseCode())
