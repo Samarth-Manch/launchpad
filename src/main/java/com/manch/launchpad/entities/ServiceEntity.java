@@ -33,13 +33,4 @@ public class ServiceEntity {
 
     @Column(name="microserviceId", nullable = true)
     private String microserviceId;
-
-    @ManyToMany
-    @JoinTable(
-            name = "depends_on",
-            joinColumns = @JoinColumn(name = "service_id"),
-            inverseJoinColumns = @JoinColumn(name = "dependency_id")
-    )
-    private List<ServiceEntity> dependencies;
-
 }
