@@ -1,4 +1,4 @@
-package com.manch.launchpad.models;
+package com.manch.launchpad.models.request;
 
 import com.manch.launchpad.entities.MicroserviceEntity;
 import lombok.AllArgsConstructor;

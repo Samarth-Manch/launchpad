@@ -1,6 +1,6 @@
 package com.manch.launchpad.services;
 
-import com.manch.launchpad.models.MicroserviceModel;
+import com.manch.launchpad.models.request.MicroserviceModel;
 import org.springframework.stereotype.Service;
 
 @Service

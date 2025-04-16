@@ -1,7 +1,6 @@
 package com.manch.launchpad.services.impl;
 
-import com.manch.launchpad.entities.MicroserviceEntity;
-import com.manch.launchpad.models.MicroserviceModel;
+import com.manch.launchpad.models.request.MicroserviceModel;
 import com.manch.launchpad.repositories.MicroserviceRepository;
 import com.manch.launchpad.services.MicroserviceService;
 import lombok.AllArgsConstructor;

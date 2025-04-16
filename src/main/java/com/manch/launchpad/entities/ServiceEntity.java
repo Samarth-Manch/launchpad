@@ -16,6 +16,7 @@ import java.util.List;
 @Table(name="service")
 public class ServiceEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name="id", insertable = true, updatable = false, unique = true, nullable = false)
     private String id;
 

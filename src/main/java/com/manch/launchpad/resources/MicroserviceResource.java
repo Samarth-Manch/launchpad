@@ -3,10 +3,8 @@ package com.manch.launchpad.resources;
 import com.manch.launchpad.commons.exceptions.LaunchpadException;
 import com.manch.launchpad.commons.responses.LaunchpadResponse;
 import com.manch.launchpad.commons.responses.ResponseInfoEnum;
-import com.manch.launchpad.models.MicroserviceModel;
+import com.manch.launchpad.models.request.MicroserviceModel;
 import com.manch.launchpad.services.MicroserviceService;
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.POST;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +15,12 @@ public class MicroserviceResource {
     MicroserviceService microserviceService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public LaunchpadResponse<MicroserviceModel> getMicroservice(@RequestBody MicroserviceModel microserviceModel) {
+    public LaunchpadResponse<MicroserviceModel> createMicroservice(@RequestBody MicroserviceModel microserviceModel) {
         MicroserviceModel microservice = microserviceService.createMicroservice(microserviceModel);
         return LaunchpadResponse.ok(microservice);
     }
 
-    @RequestMapping(value = "/{microserviceId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{microserviceId}", method = RequestMethod.GET)
     public LaunchpadResponse<MicroserviceModel> getMicroservice(@PathVariable int microserviceId) {
         if (microserviceId == 0) {
             throw new LaunchpadException(ResponseInfoEnum.BAD_REQUEST, null);
