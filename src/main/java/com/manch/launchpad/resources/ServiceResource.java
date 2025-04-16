@@ -50,12 +50,12 @@ public class ServiceResource {
         return LaunchpadResponse.ok(portService.createPort(portModel));
     }
 
-    @RequestMapping(path = "/ports/{portId}}", method = RequestMethod.GET)
+    @RequestMapping(path = "/ports/{portId}", method = RequestMethod.GET)
     public LaunchpadResponse<PortModel> getPort(@PathVariable String portId) {
         return LaunchpadResponse.ok(portService.getPort(portId));
     }
 
-    @RequestMapping(path = "/volumes/{serviceId}", method = RequestMethod.GET)
+    @RequestMapping(path = "/ports/{serviceId}", method = RequestMethod.GET)
     public LaunchpadResponse<List<PortModel>> getPorts(@PathVariable String serviceId) {
         return LaunchpadResponse.ok(portService.getPortsByServiceId(serviceId));
     }

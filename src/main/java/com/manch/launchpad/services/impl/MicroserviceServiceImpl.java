@@ -15,4 +15,9 @@ public class MicroserviceServiceImpl implements MicroserviceService {
     public MicroserviceModel createMicroservice(MicroserviceModel microserviceModel) {
         return MicroserviceModel.fromEntity(microserviceRepository.save(MicroserviceModel.toEntity(microserviceModel)));
     }
+
+    @Override
+    public MicroserviceModel getMicroserviceModel(Long microserviceId) {
+        return MicroserviceModel.fromEntity(microserviceRepository.findById(microserviceId));
+    }
 }

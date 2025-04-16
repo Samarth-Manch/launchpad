@@ -1,5 +1,7 @@
 package com.manch.launchpad.repositories.impl;
 
+import com.manch.launchpad.commons.exceptions.LaunchpadException;
+import com.manch.launchpad.commons.responses.ResponseInfoEnum;
 import com.manch.launchpad.entities.VolumeEntity;
 import com.manch.launchpad.repositories.VolumeRepository;
 import jakarta.persistence.EntityManager;
@@ -23,10 +25,16 @@ public class VolumeRepositoryImpl implements VolumeRepository {
 
     @Override
     public VolumeEntity findById(String id) {
-        return this.entityManager.createQuery(
-                "SELECT v FROM VolumeEntity v WHERE v.volumeName = :id", VolumeEntity.class)
+        List<VolumeEntity> volumeEntities = this.entityManager.createQuery(
+                        "SELECT v FROM VolumeEntity v WHERE v.volumeName = :id", VolumeEntity.class)
                 .setParameter("id", id)
-                .getSingleResult();
+                .getResultList();
+
+        if (volumeEntities.isEmpty()) {
+            throw new LaunchpadException(ResponseInfoEnum.NOT_FOUND, "Volume not found");
+        }
+
+        return volumeEntities.getFirst();
     }
 
     @Override

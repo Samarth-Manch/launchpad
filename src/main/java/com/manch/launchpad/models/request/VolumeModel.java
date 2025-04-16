@@ -1,9 +1,17 @@
 package com.manch.launchpad.models.request;
 
 import com.manch.launchpad.entities.VolumeEntity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class VolumeModel {
     private String volumeName;
 
@@ -26,11 +34,11 @@ public class VolumeModel {
     }
 
     public static VolumeModel fromEntity(VolumeEntity volumeEntity) {
-        return VolumeEntity.builder()
-                .volumeName(volumeEntity.volumeName)
-                .volumeDestination(volumeEntity.volumeDestination)
-                .volumeSource(volumeEntity.volumeSource)
-                .serviceId(volumeEntity.serviceId)
+        return VolumeModel.builder()
+                .volumeName(volumeEntity.getVolumeName())
+                .volumeDestination(volumeEntity.getVolumeDestination())
+                .volumeSource(volumeEntity.getVolumeSource())
+                .serviceId(volumeEntity.getServiceId())
                 .build();
     }
 

@@ -21,16 +21,7 @@ public class MicroserviceResource {
     }
 
     @RequestMapping(value = "/{microserviceId}", method = RequestMethod.GET)
-    public LaunchpadResponse<MicroserviceModel> getMicroservice(@PathVariable int microserviceId) {
-        if (microserviceId == 0) {
-            throw new LaunchpadException(ResponseInfoEnum.BAD_REQUEST, null);
-        }
-
-        MicroserviceModel microserviceModel = MicroserviceModel.builder()
-                .id(1)
-                .microserviceName("My Microservice")
-                .userId("123")
-                .build();
-        return LaunchpadResponse.ok(microserviceModel) ;
+    public LaunchpadResponse<MicroserviceModel> getMicroservice(@PathVariable Long microserviceId) {
+        return LaunchpadResponse.ok(microserviceService.getMicroserviceModel(microserviceId)) ;
     }
 }
