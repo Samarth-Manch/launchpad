@@ -25,7 +25,7 @@ public class ServiceRepositoryImpl implements ServiceRepository {
     }
 
     @Override
-    public ServiceEntity findById(Long id) {
+    public ServiceEntity findById(String id) {
         return this.entityManager.createQuery("SELECT s FROM ServiceEntity ms WHERE s.id = :id", ServiceEntity.class)
                 .setParameter("id", id)
                 .getSingleResult();
