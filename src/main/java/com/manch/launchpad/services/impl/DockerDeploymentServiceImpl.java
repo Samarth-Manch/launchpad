@@ -14,6 +14,7 @@ import com.manch.launchpad.models.request.ServiceModel;
 import com.manch.launchpad.models.request.VolumeModel;
 import com.manch.launchpad.services.DeploymentService;
 import com.manch.launchpad.services.ServicesService;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -23,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class DockerDeploymentServiceImpl implements DeploymentService {
     private DockerClient dockerClient;
     ServicesService servicesService;
@@ -56,8 +58,8 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
     }
 
     @Override
-    public void runService(String id) {             // Container ID here which is given by docker
-        this.dockerClient.startContainerCmd(id).exec();
+    public void runService(String serviceId) {             // Container ID here which is given by docker
+        this.dockerClient.startContainerCmd(serviceId).exec();
     }
 
     @Override
@@ -81,12 +83,13 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
     }
 
     @Override
-    public void stopService(String id) {
-        this.dockerClient.stopContainerCmd(id).exec();
+    public void stopService(String serviceId) {
+        this.dockerClient.stopContainerCmd(serviceId).exec();
     }
 
     @Override
-    public void removeService(String id) {
-        this.dockerClient.removeContainerCmd(id).exec();
+    public void removeService(String serviceId) {
+        this.dockerClient.removeContainerCmd(serviceId).exec();
+        this.servicesService.removeServiceByServiceId(serviceId);
     }
 }

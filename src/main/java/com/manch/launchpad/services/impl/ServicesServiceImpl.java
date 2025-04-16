@@ -1,5 +1,6 @@
 package com.manch.launchpad.services.impl;
 
+import com.manch.launchpad.models.request.DependencyServiceModel;
 import com.manch.launchpad.models.request.ServiceModel;
 import com.manch.launchpad.repositories.ServiceRepository;
 import com.manch.launchpad.services.ServicesService;
@@ -27,7 +28,17 @@ public class ServicesServiceImpl implements ServicesService {
     }
 
     @Override
+    public DependencyServiceModel createDependency(DependencyServiceModel dependency) {
+        return DependencyServiceModel.fromEntity(serviceRepository.createDependency(DependencyServiceModel.toEntity(dependency)));
+    }
+
+    @Override
     public void removeService(String id) {
         this.serviceRepository.delete(id);
+    }
+
+    @Override
+    public void removeServiceByServiceId(String serviceId) {
+        this.serviceRepository.deleteServiceByServiceId(serviceId);
     }
 }

@@ -2,6 +2,7 @@ package com.manch.launchpad.repositories.impl;
 
 import com.manch.launchpad.commons.exceptions.LaunchpadException;
 import com.manch.launchpad.commons.responses.ResponseInfoEnum;
+import com.manch.launchpad.entities.ServiceDependencyEntity;
 import com.manch.launchpad.entities.ServiceEntity;
 import com.manch.launchpad.repositories.ServiceRepository;
 import jakarta.persistence.EntityManager;
@@ -48,5 +49,20 @@ public class ServiceRepositoryImpl implements ServiceRepository {
                 "DELETE FROM ServiceEntity s WHERE s.id = :id", ServiceEntity.class)
                         .setParameter("id", serviceId)
                         .executeUpdate();
+    }
+
+    @Override
+    public ServiceDependencyEntity createDependency(ServiceDependencyEntity dependency) {
+        entityManager.persist(dependency);
+        return dependency;
+    }
+
+    @Override
+    public void deleteServiceByServiceId(String serviceId){
+        entityManager.createQuery(
+                        "DELETE FROM ServiceEntity s WHERE s.serviceId = :id", ServiceEntity.class)
+                .setParameter("id", serviceId)
+                .executeUpdate();
+
     }
 }

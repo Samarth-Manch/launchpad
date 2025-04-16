@@ -1,6 +1,7 @@
 package com.manch.launchpad.resources;
 
 import com.manch.launchpad.commons.responses.LaunchpadResponse;
+import com.manch.launchpad.models.request.DependencyServiceModel;
 import com.manch.launchpad.models.request.PortModel;
 import com.manch.launchpad.models.request.ServiceModel;
 import com.manch.launchpad.models.request.VolumeModel;
@@ -28,6 +29,11 @@ public class ServiceResource {
     @RequestMapping(path = "/{serviceId}", method = RequestMethod.GET)
     public LaunchpadResponse<ServiceModel> getService(@PathVariable String serviceId) {
         return LaunchpadResponse.ok(servicesService.getService(serviceId));
+    }
+
+    @RequestMapping(path = "/dependency", method = RequestMethod.POST)
+    public LaunchpadResponse<DependencyServiceModel> createServiceDependency(@RequestBody DependencyServiceModel dependencyServiceModel) {
+        return LaunchpadResponse.ok(servicesService.createDependency(dependencyServiceModel));
     }
 
     @RequestMapping(path = "/volumes", method = RequestMethod.POST)

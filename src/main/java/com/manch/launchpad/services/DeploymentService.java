@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface DeploymentService {
     ServiceModel createService(ServiceModel service, VolumeModel volume, PortModel port);
-    void runService(String id);
+    void runService(String serviceId);
     List<String> listServiceIds() throws URISyntaxException, IOException, InterruptedException;
     String getServiceIdFromName(String name);
-    void stopService(String id);
-    void removeService(String id);
+    void stopService(String serviceId);
+    void removeService(String serviceId);
 }
