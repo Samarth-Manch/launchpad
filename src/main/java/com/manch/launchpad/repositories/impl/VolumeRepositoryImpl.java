@@ -24,7 +24,7 @@ public class VolumeRepositoryImpl implements VolumeRepository {
     @Override
     public VolumeEntity findById(String id) {
         return this.entityManager.createQuery(
-                "SELECT v FROM VolumeEntity v WHERE v.id = :id", VolumeEntity.class)
+                "SELECT v FROM VolumeEntity v WHERE v.volumeName = :id", VolumeEntity.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
