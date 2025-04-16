@@ -5,9 +5,11 @@ import com.manch.launchpad.entities.ServiceEntity;
 import com.manch.launchpad.repositories.ServiceRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@AllArgsConstructor
 public class ServiceRepositoryImpl implements ServiceRepository {
     private EntityManager entityManager;
 
@@ -26,7 +28,7 @@ public class ServiceRepositoryImpl implements ServiceRepository {
 
     @Override
     public ServiceEntity findById(String id) {
-        return this.entityManager.createQuery("SELECT s FROM ServiceEntity ms WHERE s.id = :id", ServiceEntity.class)
+        return this.entityManager.createQuery("SELECT s FROM ServiceEntity s WHERE s.id = :id", ServiceEntity.class)
                 .setParameter("id", id)
                 .getSingleResult();
     }
