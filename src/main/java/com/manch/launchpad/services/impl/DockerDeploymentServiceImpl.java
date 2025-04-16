@@ -24,11 +24,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DockerDeploymentServiceImpl implements DeploymentService {
-    private static DeploymentService instance;
     private DockerClient dockerClient;
     ServicesService servicesService;
 
-    private DockerDeploymentServiceImpl() {
+    public DockerDeploymentServiceImpl() {
         DockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder().build();
         DockerHttpClient httpClient = new ApacheDockerHttpClient.Builder()
                 .dockerHost(config.getDockerHost())
@@ -38,13 +37,6 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
                 .responseTimeout(Duration.ofSeconds(45))
                 .build();
         this.dockerClient = DockerClientImpl.getInstance(config, httpClient);
-    }
-
-    public static DeploymentService getInstance(){
-        if(instance == null){
-            instance = new DockerDeploymentServiceImpl();
-        }
-        return instance;
     }
 
     @Override
