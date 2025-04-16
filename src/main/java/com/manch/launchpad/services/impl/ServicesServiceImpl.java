@@ -1,6 +1,5 @@
 package com.manch.launchpad.services.impl;
 
-import com.manch.launchpad.entities.ServiceEntity;
 import com.manch.launchpad.models.request.ServiceModel;
 import com.manch.launchpad.repositories.ServiceRepository;
 import com.manch.launchpad.services.ServicesService;

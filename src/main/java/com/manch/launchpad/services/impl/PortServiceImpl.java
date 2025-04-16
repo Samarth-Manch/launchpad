@@ -7,7 +7,6 @@ import com.manch.launchpad.services.PortService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.sound.sampled.Port;
 import java.util.List;
 import java.util.stream.Collectors;
 

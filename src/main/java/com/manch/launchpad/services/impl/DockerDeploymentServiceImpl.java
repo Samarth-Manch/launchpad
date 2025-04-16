@@ -47,7 +47,6 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
         return instance;
     }
 
-
     @Override
     public ServiceModel createService(ServiceModel service, VolumeModel volume, PortModel port) {
         CreateContainerResponse containerResponse = this.dockerClient.createContainerCmd(service.getServiceImage())
@@ -65,7 +64,7 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
     }
 
     @Override
-    public void runService(String id) {
+    public void runService(String id) {             // Container ID here which is given by docker
         this.dockerClient.startContainerCmd(id).exec();
     }
 
