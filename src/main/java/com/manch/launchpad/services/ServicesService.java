@@ -6,4 +6,5 @@ public interface ServicesService {
     ServiceModel createService(ServiceModel service);
     ServiceModel updateService(ServiceModel service);
     ServiceModel getService(String id);
+    void removeService(String id);
 }

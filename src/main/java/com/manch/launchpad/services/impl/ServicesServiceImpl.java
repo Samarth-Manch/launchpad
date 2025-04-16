@@ -26,4 +26,9 @@ public class ServicesServiceImpl implements ServicesService {
     public ServiceModel getService(String id) {
         return ServiceModel.fromEntity(this.serviceRepository.findById(id));
     }
+
+    @Override
+    public void removeService(String id) {
+        this.serviceRepository.delete(id);
+    }
 }

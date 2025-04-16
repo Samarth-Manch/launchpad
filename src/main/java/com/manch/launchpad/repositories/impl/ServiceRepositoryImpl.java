@@ -41,4 +41,12 @@ public class ServiceRepositoryImpl implements ServiceRepository {
 
         return serviceEntities.getFirst();
     }
+
+    @Override
+    public void delete(String serviceId) {
+        entityManager.createQuery(
+                "DELETE FROM ServiceEntity s WHERE s.id = :id", ServiceEntity.class)
+                        .setParameter("id", serviceId)
+                        .executeUpdate();
+    }
 }

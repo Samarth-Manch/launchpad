@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,6 +18,8 @@ public class ServiceModel {
 
     @NotBlank(message = "Id is required")
     private String id;
+
+    private String serviceId;
 
     @NotBlank(message = "Service name is required")
     private String name;
@@ -29,6 +32,8 @@ public class ServiceModel {
 
     @NotBlank(message = "Microservice Id is required")
     private String microserviceId;
+
+    private List<String> env;
 
     private String status;
 
