@@ -32,7 +32,7 @@ public class PortRepositoryImpl implements PortRepository {
     @Override
     public List<PortEntity> findAllByServiceId(String serviceId) {
         return this.entityManager.createQuery(
-                        "SELECT p FROM VolumeEntity p WHERE p.serviceId = :serviceId", PortEntity.class)
+                        "SELECT p FROM PortEntity p WHERE p.serviceId = :serviceId", PortEntity.class)
                 .setParameter("serviceId", serviceId)
                 .getResultList();
     }
