@@ -27,8 +27,9 @@ public class ServiceRepositoryImpl implements ServiceRepository {
     @Override
     @Transactional
     public ServiceEntity update(ServiceEntity serviceEntity) {
-        entityManager.createQuery("UPDATE ServiceEntity SET serviceId = :serviceId WHERE id = :id ")
+        entityManager.createQuery("UPDATE ServiceEntity SET serviceId = :serviceId, status = :status WHERE id = :id ")
                         .setParameter("serviceId", serviceEntity.getServiceId())
+                        .setParameter("status", serviceEntity.getStatus())
                         .setParameter("id", serviceEntity.getId())
                         .executeUpdate();
         return serviceEntity;

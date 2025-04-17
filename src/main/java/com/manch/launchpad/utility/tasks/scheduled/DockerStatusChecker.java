@@ -19,14 +19,12 @@ public class DockerStatusChecker {
     @Scheduled(fixedRate = 5000)
     public void checkStatus() {
         Map<String, String> statusMap = deploymentService.getServiceStatus();
-
         statusMap.forEach((serviceId, status) -> {
             try {
                 ServiceModel service = servicesService.getServiceByServiceId(serviceId);
                 service.setStatus(status);
                 servicesService.updateService(service);
             } catch (LaunchpadException ignored){
-
             }
         });
     }

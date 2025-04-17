@@ -102,7 +102,12 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
 
     @Override
     public Map<String, String> getServiceStatus() {
-        List<Container> containers = this.dockerClient.listContainersCmd().exec();
+        List<Container> containers = this.dockerClient.listContainersCmd()
+                .withStatusFilter(new ArrayList<>(
+                Arrays.asList(DockerContainerStatusEnum.created.toString(),
+                        DockerContainerStatusEnum.exited.toString(),
+                        DockerContainerStatusEnum.running.toString())))
+                .exec();
          return containers.stream()
                 .collect(Collectors.toMap(Container::getId, Container::getStatus));
 
