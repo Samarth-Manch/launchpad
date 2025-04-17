@@ -2,9 +2,7 @@ package com.manch.launchpad.services.impl;
 
 import com.manch.launchpad.commons.exceptions.LaunchpadException;
 import com.manch.launchpad.commons.responses.ResponseInfoEnum;
-import com.manch.launchpad.models.request.PortModel;
-import com.manch.launchpad.models.request.ServiceModel;
-import com.manch.launchpad.models.request.VolumeModel;
+import com.manch.launchpad.models.request.*;
 import com.manch.launchpad.services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,11 +14,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UpServiceImpl implements UpService {
     DeploymentService deploymentService;
+    ServicesService servicesService;
     MicroserviceService microserviceService;
     VolumeService volumeService;
     PortService portService;
 
-    private static void DFS(ServiceModel node, TreeMap<ServiceModel, List<ServiceModel>> serviceDependencyGraph,
+    private static void DFS(ServiceModel node, HashMap<ServiceModel, List<ServiceModel>> serviceDependencyGraph,
                             HashMap<ServiceModel, Boolean> visited, Stack<ServiceModel> stack) {
         visited.put(node, true);
         List<ServiceModel> neighbors = serviceDependencyGraph.get(node);
@@ -32,7 +31,7 @@ public class UpServiceImpl implements UpService {
         stack.push(node);
     }
 
-    private static List<ServiceModel> topologicalSort(TreeMap<ServiceModel, List<ServiceModel>> serviceDependencyGraph) {
+    private static List<ServiceModel> topologicalSort(HashMap<ServiceModel, List<ServiceModel>> serviceDependencyGraph) {
         List<ServiceModel> servicesInTopologicalOrder = new ArrayList<>();
         Stack<ServiceModel> stack = new Stack<>();
         HashMap<ServiceModel, Boolean> visited = new HashMap<>();
@@ -53,7 +52,7 @@ public class UpServiceImpl implements UpService {
         return servicesInTopologicalOrder;
     }
 
-    private static boolean cycleDetection(TreeMap<ServiceModel, List<ServiceModel>> serviceDependencyGraph,
+    private static boolean cycleDetection(HashMap<ServiceModel, List<ServiceModel>> serviceDependencyGraph,
                                           HashMap<ServiceModel, Integer> visited,
                                           ServiceModel node) {
         visited.put(node, 2);
@@ -75,7 +74,7 @@ public class UpServiceImpl implements UpService {
         return false;
     }
 
-    private static boolean isThereCircularDependency(TreeMap<ServiceModel, List<ServiceModel>> serviceDependencyGraph) {
+    private static boolean isThereCircularDependency(HashMap<ServiceModel, List<ServiceModel>> serviceDependencyGraph) {
         HashMap<ServiceModel, Integer> visited = new HashMap<>();
         for (ServiceModel node : serviceDependencyGraph.keySet()) {
             visited.put(node, 1);
@@ -90,6 +89,26 @@ public class UpServiceImpl implements UpService {
         }
 
         return false;
+    }
+
+    private Map<ServiceModel, List<ServiceModel>> createDependencyGraph(Long id, List<DependencyServiceModel> dependencyList) {
+        Map<ServiceModel, List<ServiceModel>> serviceDependencyGraph = new HashMap<>();
+        Map<String, ServiceModel> serviceMap = this.microserviceService.getServicesOfMicroservice(id)
+                .stream()
+                .collect(Collectors.toMap(ServiceModel::getId, serviceModel -> serviceModel));
+
+        for (ServiceModel serviceModel : serviceMap.values()) {
+            serviceDependencyGraph.put(serviceModel, new ArrayList<>());
+        }
+
+        for (DependencyServiceModel dependency : dependencyList) {
+            List<ServiceModel> services = serviceDependencyGraph.get(
+                    servicesService.getService(dependency.getDependentServiceId()));
+            services.add(servicesService.getService(dependency.getRequiredServiceId()));
+            serviceDependencyGraph.put(serviceMap.get(dependency.getDependentServiceId()), services);
+        }
+
+        return serviceDependencyGraph;
     }
 
     @Override
@@ -112,7 +131,7 @@ public class UpServiceImpl implements UpService {
     }
 
     @Override
-    public void runServices(TreeMap<ServiceModel, List<ServiceModel>> serviceDependencyGraph) {
+    public void runServices(HashMap<ServiceModel, List<ServiceModel>> serviceDependencyGraph) {
         if (isThereCircularDependency(serviceDependencyGraph)) {
             throw new LaunchpadException(ResponseInfoEnum.BAD_REQUEST, "Circular dependency found. Fix circular dependency before running the services");
         }
