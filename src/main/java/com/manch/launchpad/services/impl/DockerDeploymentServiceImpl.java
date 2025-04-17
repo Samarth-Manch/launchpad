@@ -13,6 +13,7 @@ import com.manch.launchpad.models.request.VolumeModel;
 import com.manch.launchpad.services.DeploymentService;
 import com.manch.launchpad.services.ServicesService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -29,22 +30,12 @@ import java.util.stream.Collectors;
 public class DockerDeploymentServiceImpl implements DeploymentService {
     private static DeploymentService instance;
     private DockerClient dockerClient;
+
+    @Autowired
     ServicesService servicesService;
 
-    private DockerClientConfig setupDockerClientConfig(DockerClientConfig defaultConfig) {
-        return new DefaultDockerClientConfig.Builder()
-                .withDockerHost("unix:///var/run/docker.sock")
-                .withApiVersion(defaultConfig.getApiVersion())
-                .withRegistryUsername(defaultConfig.getRegistryUsername())
-                .withRegistryPassword(defaultConfig.getRegistryPassword())
-                .withRegistryEmail(defaultConfig.getRegistryEmail())
-                .withRegistryUrl(defaultConfig.getRegistryUrl())
-                .withCustomSslConfig(defaultConfig.getSSLConfig())
-                .build();
-    }
-
     private DockerDeploymentServiceImpl() throws URISyntaxException {
-        DockerClientConfig config = this.setupDockerClientConfig(DefaultDockerClientConfig.createDefaultConfigBuilder().build());
+        DockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder().build();
         URI uri = new URI("unix:///var/run/docker.sock");
         DockerHttpClient httpClient = new ApacheDockerHttpClient.Builder()
                 .dockerHost(uri)

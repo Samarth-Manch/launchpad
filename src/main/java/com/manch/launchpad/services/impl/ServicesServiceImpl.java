@@ -19,7 +19,7 @@ public class ServicesServiceImpl implements ServicesService {
 
     @Override
     public ServiceModel updateService(ServiceModel service) {
-        return ServiceModel.fromEntity(this.serviceRepository.save(ServiceModel.toEntity(service)));
+        return ServiceModel.fromEntity(this.serviceRepository.update(ServiceModel.toEntity(service)));
     }
 
     @Override

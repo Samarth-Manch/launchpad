@@ -4,6 +4,7 @@ import com.manch.launchpad.models.request.ServiceDependencyModel;
 import com.manch.launchpad.models.request.ServiceModel;
 import com.manch.launchpad.services.MicroserviceService;
 import com.manch.launchpad.services.ServicesService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
+@AllArgsConstructor
 public class CommonUtilities {
     MicroserviceService microserviceService;
     ServicesService servicesService;

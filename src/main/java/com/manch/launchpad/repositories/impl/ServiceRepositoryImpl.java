@@ -27,7 +27,10 @@ public class ServiceRepositoryImpl implements ServiceRepository {
     @Override
     @Transactional
     public ServiceEntity update(ServiceEntity serviceEntity) {
-        entityManager.merge(serviceEntity);
+        entityManager.createQuery("UPDATE ServiceEntity SET serviceId = :serviceId WHERE id = :id ")
+                        .setParameter("serviceId", serviceEntity.getServiceId())
+                        .setParameter("id", serviceEntity.getId())
+                        .executeUpdate();
         return serviceEntity;
     }
 
