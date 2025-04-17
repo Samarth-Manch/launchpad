@@ -28,6 +28,7 @@
 	</scm>
 	<properties>
 		<java.version>21</java.version>
+		<docker-java.version>3.4.1</docker-java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -61,34 +62,25 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.github.docker-java</groupId>
-			<artifactId>docker-java</artifactId>
-			<version>3.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.docker-java</groupId>
-			<artifactId>docker-java-transport-httpclient5</artifactId>
-			<version>3.4.1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.docker-java</groupId>
-			<artifactId>docker-java-transport</artifactId>
-			<version>3.4.1</version>
-		</dependency>
-		<dependency>
 			<groupId>javax.validation</groupId>
 			<artifactId>validation-api</artifactId>
 			<version>2.0.1.Final</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.httpcomponents.client5</groupId>
-			<artifactId>httpclient5</artifactId>
-			<version>5.4.1</version>
-		</dependency>
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.github.docker-java</groupId>
+			<artifactId>docker-java</artifactId>
+			<version>${docker-java.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.docker-java</groupId>
+			<artifactId>docker-java-transport-httpclient5</artifactId>
+			<version>${docker-java.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -45,6 +45,7 @@ public class ServiceModel {
                 .name(serviceModel.getName())
                 .serviceImage(serviceModel.getServiceImage())
                 .status(serviceModel.getStatus())
+                .env(serviceModel.getEnv())
                 .build();
     }
 
@@ -56,6 +57,7 @@ public class ServiceModel {
                 .name(serviceEntity.getName())
                 .serviceImage(serviceEntity.getServiceImage())
                 .status(serviceEntity.getStatus())
+                .env(serviceEntity.getEnv())
                 .build();
     }
 }

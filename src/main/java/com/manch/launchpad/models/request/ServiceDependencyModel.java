@@ -23,13 +23,14 @@ public class ServiceDependencyModel {
     private String requiredServiceId;
 
     @NotBlank(message = "Microservice ID is required")
-    private String microserviceId;
+    private Long microserviceId;
 
     public static ServiceDependencyModel fromEntity(ServiceDependencyEntity dependency) {
         return ServiceDependencyModel.builder()
                 .id(dependency.getId())
                 .dependentServiceId(dependency.getDependentServiceId())
                 .requiredServiceId(dependency.getRequiredServiceId())
+                .microserviceId(dependency.getMicroserviceId())
                 .build();
     }
 
@@ -38,6 +39,7 @@ public class ServiceDependencyModel {
                 .id(dependency.getId())
                 .dependentServiceId(dependency.getDependentServiceId())
                 .requiredServiceId(dependency.getRequiredServiceId())
+                .microserviceId(dependency.getMicroserviceId())
                 .build();
     }
 

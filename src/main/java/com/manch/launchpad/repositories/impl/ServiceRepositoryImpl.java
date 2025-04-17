@@ -25,6 +25,7 @@ public class ServiceRepositoryImpl implements ServiceRepository {
     }
 
     @Override
+    @Transactional
     public ServiceEntity update(ServiceEntity serviceEntity) {
         entityManager.merge(serviceEntity);
         return serviceEntity;
@@ -44,6 +45,7 @@ public class ServiceRepositoryImpl implements ServiceRepository {
     }
 
     @Override
+    @Transactional
     public void delete(String serviceId) {
         entityManager.createQuery(
                 "DELETE FROM ServiceEntity s WHERE s.id = :id", ServiceEntity.class)
@@ -52,12 +54,14 @@ public class ServiceRepositoryImpl implements ServiceRepository {
     }
 
     @Override
+    @Transactional
     public ServiceDependencyEntity createDependency(ServiceDependencyEntity dependency) {
         entityManager.persist(dependency);
         return dependency;
     }
 
     @Override
+    @Transactional
     public void deleteServiceByServiceId(String serviceId){
         entityManager.createQuery(
                         "DELETE FROM ServiceEntity s WHERE s.serviceId = :id", ServiceEntity.class)

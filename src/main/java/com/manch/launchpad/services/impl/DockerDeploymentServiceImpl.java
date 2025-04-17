@@ -3,9 +3,7 @@ package com.manch.launchpad.services.impl;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerResponse;
 import com.github.dockerjava.api.model.*;
-import com.github.dockerjava.core.DefaultDockerClientConfig;
-import com.github.dockerjava.core.DockerClientConfig;
-import com.github.dockerjava.core.DockerClientImpl;
+import com.github.dockerjava.core.*;
 import com.github.dockerjava.httpclient5.ApacheDockerHttpClient;
 import com.github.dockerjava.transport.DockerHttpClient;
 import com.manch.launchpad.enums.DockerContainerStatusEnum;
@@ -14,9 +12,11 @@ import com.manch.launchpad.models.request.ServiceModel;
 import com.manch.launchpad.models.request.VolumeModel;
 import com.manch.launchpad.services.DeploymentService;
 import com.manch.launchpad.services.ServicesService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -25,14 +25,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class DockerDeploymentServiceImpl implements DeploymentService {
+    private static DeploymentService instance;
     private DockerClient dockerClient;
     ServicesService servicesService;
 
-    public DockerDeploymentServiceImpl() {
-        DockerClientConfig config = DefaultDockerClientConfig.createDefaultConfigBuilder().build();
+    private DockerClientConfig setupDockerClientConfig(DockerClientConfig defaultConfig) {
+        return new DefaultDockerClientConfig.Builder()
+                .withDockerHost("unix:///var/run/docker.sock")
+                .withApiVersion(defaultConfig.getApiVersion())
+                .withRegistryUsername(defaultConfig.getRegistryUsername())
+                .withRegistryPassword(defaultConfig.getRegistryPassword())
+                .withRegistryEmail(defaultConfig.getRegistryEmail())
+                .withRegistryUrl(defaultConfig.getRegistryUrl())
+                .withCustomSslConfig(defaultConfig.getSSLConfig())
+                .build();
+    }
+
+    private DockerDeploymentServiceImpl() throws URISyntaxException {
+        DockerClientConfig config = this.setupDockerClientConfig(DefaultDockerClientConfig.createDefaultConfigBuilder().build());
+        URI uri = new URI("unix:///var/run/docker.sock");
         DockerHttpClient httpClient = new ApacheDockerHttpClient.Builder()
-                .dockerHost(config.getDockerHost())
+                .dockerHost(uri)
                 .sslConfig(config.getSSLConfig())
                 .maxConnections(100)
                 .connectionTimeout(Duration.ofSeconds(30))
@@ -43,6 +58,7 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
 
     @Override
     public ServiceModel createService(ServiceModel service, List<VolumeModel> volume, List<PortModel> port) {
+        System.out.println("YO");
         CreateContainerResponse containerResponse = this.dockerClient.createContainerCmd(service.getServiceImage())
                 .withHostConfig(HostConfig.newHostConfig()
                         .withBinds(volume.stream()
@@ -54,6 +70,7 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
                 .withName(service.getName())
                 .withEnv(service.getEnv())
                 .exec();
+        System.out.println("DSKIP");
         service.setServiceId(containerResponse.getId());
         return servicesService.updateService(service);
     }

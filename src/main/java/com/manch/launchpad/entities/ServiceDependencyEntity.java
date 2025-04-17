@@ -24,5 +24,5 @@ public class ServiceDependencyEntity {
     private String requiredServiceId;
 
     @Column(name = "microservice_id", nullable = false)
-    private String microserviceId;
+    private Long microserviceId;
 }

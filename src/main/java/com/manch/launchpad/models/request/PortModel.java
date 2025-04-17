@@ -32,6 +32,7 @@ public class PortModel {
                 .id(portModel.getId())
                 .portIp(portModel.getPortIp())
                 .privatePort(portModel.getPrivatePort())
+                .publicPort(portModel.getPublicPort())
                 .serviceId(portModel.getServiceId())
                 .build();
     }
@@ -42,6 +43,7 @@ public class PortModel {
                 .portIp(portEntity.getPortIp())
                 .privatePort(portEntity.getPrivatePort())
                 .serviceId(portEntity.getServiceId())
+                .publicPort(portEntity.getPublicPort())
                 .build();
     }
 
