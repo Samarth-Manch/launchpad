@@ -21,6 +21,7 @@ public class DeploymentResource {
         return LaunchpadResponse.created(null);
     }
 
+    @RequestMapping(value = "/{microserviceId}", method = RequestMethod.GET)
     public LaunchpadResponse<?> runServices(@PathVariable Long microserviceId) {
         upService.runServices(commonUtilities.createDependencyGraph(microserviceId));
         return LaunchpadResponse.ok(null);
