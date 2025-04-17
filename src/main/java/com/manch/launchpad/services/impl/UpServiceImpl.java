@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UpServiceImpl implements UpService {
     DeploymentService deploymentService;
-    ServicesService servicesService;
     MicroserviceService microserviceService;
     VolumeService volumeService;
     PortService portService;
