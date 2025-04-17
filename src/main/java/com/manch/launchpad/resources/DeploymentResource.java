@@ -14,14 +14,13 @@ public class DeploymentResource {
     UpService upService;
     CommonUtilities commonUtilities;
 
-
-    @RequestMapping(value = "/{microserviceId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{microserviceId}/create", method = RequestMethod.POST)
     public LaunchpadResponse<?> createServices(@PathVariable Long microserviceId) {
         upService.createServices(microserviceId);
         return LaunchpadResponse.created(null);
     }
 
-    @RequestMapping(value = "/{microserviceId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{microserviceId}/run", method = RequestMethod.GET)
     public LaunchpadResponse<?> runServices(@PathVariable Long microserviceId) {
         upService.runServices(commonUtilities.createDependencyGraph(microserviceId));
         return LaunchpadResponse.ok(null);
