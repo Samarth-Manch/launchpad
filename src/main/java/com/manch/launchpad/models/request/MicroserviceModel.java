@@ -1,6 +1,7 @@
 package com.manch.launchpad.models.request;
 
 import com.manch.launchpad.entities.MicroserviceEntity;
+import com.manch.launchpad.enums.DeploymentServiceEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,11 +23,15 @@ public class MicroserviceModel {
     @NotBlank(message = "User ID is required")
     String userId;
 
+    @NotBlank(message = "Deployment is required")
+    DeploymentServiceEnum deployment;
+
     public static MicroserviceEntity toEntity(MicroserviceModel microserviceModel) {
         return MicroserviceEntity.builder()
                 .microserviceName(microserviceModel.getMicroserviceName())
                 .userId(microserviceModel.getUserId())
                 .microserviceName(microserviceModel.getMicroserviceName())
+                .deployment(microserviceModel.getDeployment())
                 .build();
     }
 
@@ -36,6 +41,7 @@ public class MicroserviceModel {
                 .microserviceName(microserviceEntity.getMicroserviceName())
                 .userId(microserviceEntity.getUserId())
                 .microserviceName(microserviceEntity.getMicroserviceName())
+                .deployment(microserviceEntity.getDeployment())
                 .build();
     }
 }

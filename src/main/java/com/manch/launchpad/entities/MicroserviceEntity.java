@@ -1,5 +1,6 @@
 package com.manch.launchpad.entities;
 
+import com.manch.launchpad.enums.DeploymentServiceEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +24,7 @@ public class MicroserviceEntity {
 
     @Column(name="user_id", nullable = false)
     private String userId;
+
+    @Column(name="deployment", nullable = false)
+    private DeploymentServiceEnum deployment;
 }
