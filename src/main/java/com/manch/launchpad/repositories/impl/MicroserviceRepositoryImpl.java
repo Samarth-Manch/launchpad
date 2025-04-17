@@ -3,6 +3,7 @@ package com.manch.launchpad.repositories.impl;
 import com.manch.launchpad.commons.exceptions.LaunchpadException;
 import com.manch.launchpad.commons.responses.ResponseInfoEnum;
 import com.manch.launchpad.entities.MicroserviceEntity;
+import com.manch.launchpad.entities.ServiceEntity;
 import com.manch.launchpad.repositories.MicroserviceRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -40,5 +41,12 @@ public class MicroserviceRepositoryImpl implements MicroserviceRepository {
         }
 
         return microservice.getFirst();
+    }
+
+    @Override
+    public List<ServiceEntity> findServicesOfMicroservice(Long id) {
+        return this.entityManager.createQuery("SELECT s FROM ServiceEntity s WHERE s.microserviceId = :id", ServiceEntity.class)
+                .setParameter("id", id)
+                .getResultList();
     }
 }

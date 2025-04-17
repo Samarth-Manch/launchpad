@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 public interface DeploymentService {
-    ServiceModel createService(ServiceModel service, VolumeModel volume, PortModel port);
+    ServiceModel createService(ServiceModel service, List<VolumeModel> volume, List<PortModel> port);
     void runService(String serviceId);
     List<String> listServiceIds() throws URISyntaxException, IOException, InterruptedException;
     String getServiceIdFromName(String name);

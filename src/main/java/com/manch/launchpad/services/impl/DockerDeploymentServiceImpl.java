@@ -42,14 +42,15 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
     }
 
     @Override
-    public ServiceModel createService(ServiceModel service, VolumeModel volume, PortModel port) {
+    public ServiceModel createService(ServiceModel service, List<VolumeModel> volume, List<PortModel> port) {
         CreateContainerResponse containerResponse = this.dockerClient.createContainerCmd(service.getServiceImage())
                 .withHostConfig(HostConfig.newHostConfig()
-                        .withBinds(new Bind(volume.getVolumeSource(), new Volume(volume.getVolumeDestination()), AccessMode.rw))
-                        .withPortBindings(new PortBinding(
-                                Ports.Binding.bindPort(port.getPrivatePort()),
-                                ExposedPort.tcp(port.getPublicPort())
-                        )))
+                        .withBinds(volume.stream()
+                                .map(volumeModel -> new Bind(volumeModel.getVolumeSource(), new Volume(volumeModel.getVolumeDestination()), AccessMode.rw))
+                                .collect(Collectors.toList()))
+                        .withPortBindings(port.stream()
+                                .map(portModel -> new PortBinding(Ports.Binding.bindPort(portModel.getPrivatePort()), ExposedPort.tcp(portModel.getPublicPort())))
+                                .collect(Collectors.toList())))
                 .withName(service.getName())
                 .withEnv(service.getEnv())
                 .exec();
