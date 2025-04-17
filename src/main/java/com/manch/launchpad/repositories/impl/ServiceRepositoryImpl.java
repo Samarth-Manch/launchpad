@@ -64,6 +64,20 @@ public class ServiceRepositoryImpl implements ServiceRepository {
     }
 
     @Override
+    public ServiceEntity getServiceByServiceId(String serviceId) {
+        List<ServiceEntity> entities=  entityManager.createQuery(
+                "SELECT s FROM ServiceEntity s WHERE s.serviceId = :serviceId", ServiceEntity.class)
+                .setParameter("serviceId", serviceId)
+                .getResultList();
+
+        if (entities.isEmpty()) {
+            throw new LaunchpadException(ResponseInfoEnum.NOT_FOUND, "Service with id " + serviceId + " not found");
+        }
+
+        return entities.getFirst();
+    }
+
+    @Override
     @Transactional
     public void deleteServiceByServiceId(String serviceId){
         entityManager.createQuery(

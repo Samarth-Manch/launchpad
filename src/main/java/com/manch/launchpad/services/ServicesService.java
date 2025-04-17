@@ -10,4 +10,5 @@ public interface ServicesService {
     ServiceDependencyModel createDependency(ServiceDependencyModel dependency);
     void removeService(String id);
     void removeServiceByServiceId(String serviceId);
+    ServiceModel getServiceByServiceId(String serviceId);
 }

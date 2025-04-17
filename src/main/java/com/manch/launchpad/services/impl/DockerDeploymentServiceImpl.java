@@ -20,9 +20,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -100,5 +98,13 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
     public void removeService(String serviceId) {
         this.dockerClient.removeContainerCmd(serviceId).exec();
         this.servicesService.removeServiceByServiceId(serviceId);
+    }
+
+    @Override
+    public Map<String, String> getServiceStatus() {
+        List<Container> containers = this.dockerClient.listContainersCmd().exec();
+         return containers.stream()
+                .collect(Collectors.toMap(Container::getId, Container::getStatus));
+
     }
 }

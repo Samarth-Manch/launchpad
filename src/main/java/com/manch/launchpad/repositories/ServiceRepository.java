@@ -10,4 +10,5 @@ public interface ServiceRepository {
     void deleteServiceByServiceId(String serviceId);
     void delete(String serviceId);
     ServiceDependencyEntity createDependency(ServiceDependencyEntity dependency);
+    ServiceEntity getServiceByServiceId(String serviceId);
 }

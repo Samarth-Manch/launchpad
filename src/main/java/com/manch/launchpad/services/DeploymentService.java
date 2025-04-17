@@ -7,6 +7,7 @@ import com.manch.launchpad.models.request.VolumeModel;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 
 public interface DeploymentService {
     ServiceModel createService(ServiceModel service, List<VolumeModel> volume, List<PortModel> port);
@@ -15,4 +16,5 @@ public interface DeploymentService {
     String getServiceIdFromName(String name);
     void stopService(String serviceId);
     void removeService(String serviceId);
+    Map<String, String> getServiceStatus();
 }
