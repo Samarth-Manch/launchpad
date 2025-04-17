@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatusCode;
 @Getter
 public enum ResponseInfoEnum {
     OK(HttpStatusCode.valueOf(200), "Operation successful", "SE0200"),
+    MODIFIED(HttpStatusCode.valueOf(200), "Modification successful", "SE0200"),
     CREATED(HttpStatusCode.valueOf(201), "Resource created successfully", "SE0201"),
 
     BAD_REQUEST(HttpStatusCode.valueOf(400), "Bad request", "SE0400"),

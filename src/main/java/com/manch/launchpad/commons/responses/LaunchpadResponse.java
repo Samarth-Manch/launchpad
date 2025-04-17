@@ -33,6 +33,15 @@ public class LaunchpadResponse<T> {
                 .build();
     }
 
+    public static <T> LaunchpadResponse<T> updated(T data) {
+        return LaunchpadResponse.<T>builder()
+                .message(ResponseInfoEnum.MODIFIED.getMessage())
+                .responseCode(ResponseInfoEnum.CREATED.getResponseCode())
+                .statusCode(ResponseInfoEnum.CREATED.getStatusCode().value())
+                .data(data)
+                .build();
+    }
+
     public static <T> LaunchpadResponse<T> badRequest(T data, ResponseInfoEnum error) {
         return LaunchpadResponse.<T>builder()
                 .message(error.getMessage())

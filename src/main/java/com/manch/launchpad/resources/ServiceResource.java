@@ -23,7 +23,7 @@ public class ServiceResource {
 
     @RequestMapping(method = RequestMethod.POST)
     public LaunchpadResponse<ServiceModel> createService(@RequestBody ServiceModel serviceModel) {
-        return LaunchpadResponse.ok(servicesService.createService(serviceModel));
+        return LaunchpadResponse.created(servicesService.createService(serviceModel));
     }
 
     @RequestMapping(path = "/{serviceId}", method = RequestMethod.GET)
@@ -33,12 +33,12 @@ public class ServiceResource {
 
     @RequestMapping(path = "/dependency", method = RequestMethod.POST)
     public LaunchpadResponse<DependencyServiceModel> createServiceDependency(@RequestBody DependencyServiceModel dependencyServiceModel) {
-        return LaunchpadResponse.ok(servicesService.createDependency(dependencyServiceModel));
+        return LaunchpadResponse.created(servicesService.createDependency(dependencyServiceModel));
     }
 
     @RequestMapping(path = "/volumes", method = RequestMethod.POST)
     public LaunchpadResponse<VolumeModel> createVolume(@RequestBody VolumeModel volumeModel) {
-        return LaunchpadResponse.ok(volumeService.createVolume(volumeModel));
+        return LaunchpadResponse.created(volumeService.createVolume(volumeModel));
     }
 
     @RequestMapping(path = "/{serviceId}/volumes", method = RequestMethod.GET)
@@ -53,7 +53,7 @@ public class ServiceResource {
 
     @RequestMapping(path = "/ports", method = RequestMethod.POST)
     public LaunchpadResponse<PortModel> createPort(@RequestBody PortModel portModel) {
-        return LaunchpadResponse.ok(portService.createPort(portModel));
+        return LaunchpadResponse.created(portService.createPort(portModel));
     }
 
     @RequestMapping(path = "/{portId}/port", method = RequestMethod.GET)

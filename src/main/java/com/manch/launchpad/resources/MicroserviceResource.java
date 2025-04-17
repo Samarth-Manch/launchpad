@@ -16,7 +16,7 @@ public class MicroserviceResource {
     @RequestMapping(method = RequestMethod.POST)
     public LaunchpadResponse<MicroserviceModel> createMicroservice(@RequestBody MicroserviceModel microserviceModel) {
         MicroserviceModel microservice = microserviceService.createMicroservice(microserviceModel);
-        return LaunchpadResponse.ok(microservice);
+        return LaunchpadResponse.created(microservice);
     }
 
     @RequestMapping(value = "/{microserviceId}", method = RequestMethod.GET)
@@ -26,7 +26,7 @@ public class MicroserviceResource {
 
     @RequestMapping(value = "/{microserviceId}/{deployment}/deployment", method = RequestMethod.POST)
     public LaunchpadResponse<MicroserviceModel> updateMicroserviceDeployment(@PathVariable Long microserviceId, @PathVariable String deployment) {
-        return LaunchpadResponse.ok(microserviceService.updateMicroserviceDeployment(microserviceId,
+        return LaunchpadResponse.updated(microserviceService.updateMicroserviceDeployment(microserviceId,
                 DeploymentServiceEnum.valueOf(deployment)));
     }
 }
