@@ -3,6 +3,7 @@ package com.manch.launchpad.services.impl;
 import com.manch.launchpad.entities.ServiceEntity;
 import com.manch.launchpad.enums.DeploymentServiceEnum;
 import com.manch.launchpad.models.request.MicroserviceModel;
+import com.manch.launchpad.models.request.ServiceDependencyModel;
 import com.manch.launchpad.models.request.ServiceModel;
 import com.manch.launchpad.repositories.MicroserviceRepository;
 import com.manch.launchpad.services.MicroserviceService;
@@ -37,6 +38,14 @@ public class MicroserviceServiceImpl implements MicroserviceService {
         MicroserviceModel microservice = this.getMicroserviceModel(microserviceId);
         microservice.setDeployment(deployment);
         return MicroserviceModel.fromEntity(microserviceRepository.update(MicroserviceModel.toEntity(microservice)));
+    }
+
+    @Override
+    public List<ServiceDependencyModel> getServiceDependencies(Long microserviceId) {
+        return microserviceRepository.findServicesOfMicroserviceDependency(microserviceId)
+                .stream()
+                .map(ServiceDependencyModel::fromEntity)
+                .collect(Collectors.toList());
     }
 
     @Override
