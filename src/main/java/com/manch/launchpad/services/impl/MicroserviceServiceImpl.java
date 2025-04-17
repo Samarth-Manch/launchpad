@@ -8,11 +8,13 @@ import com.manch.launchpad.models.request.ServiceModel;
 import com.manch.launchpad.repositories.MicroserviceRepository;
 import com.manch.launchpad.services.MicroserviceService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class MicroserviceServiceImpl implements MicroserviceService {
@@ -20,6 +22,7 @@ public class MicroserviceServiceImpl implements MicroserviceService {
 
     @Override
     public MicroserviceModel createMicroservice(MicroserviceModel microserviceModel) {
+        log.info("Creating microservice of name: {}", microserviceModel.getMicroserviceName());
         return MicroserviceModel.fromEntity(microserviceRepository.save(MicroserviceModel.toEntity(microserviceModel)));
     }
 
@@ -30,11 +33,13 @@ public class MicroserviceServiceImpl implements MicroserviceService {
 
     @Override
     public MicroserviceModel updateMicroservice(MicroserviceModel microserviceModel) {
+        log.info("Attempting to update microservice of this model: {}", microserviceModel.toString());
         return MicroserviceModel.fromEntity(microserviceRepository.update(MicroserviceModel.toEntity(microserviceModel)));
     }
 
     @Override
     public MicroserviceModel updateMicroserviceDeployment(Long microserviceId, DeploymentServiceEnum deployment) {
+        log.info("Attempting to update deployment of microservice of this id: {}", microserviceId);
         MicroserviceModel microservice = this.getMicroserviceModel(microserviceId);
         microservice.setDeployment(deployment);
         return MicroserviceModel.fromEntity(microserviceRepository.update(MicroserviceModel.toEntity(microservice)));

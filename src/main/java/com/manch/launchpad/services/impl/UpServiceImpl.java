@@ -5,11 +5,13 @@ import com.manch.launchpad.commons.responses.ResponseInfoEnum;
 import com.manch.launchpad.models.request.*;
 import com.manch.launchpad.services.*;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UpServiceImpl implements UpService {
@@ -92,6 +94,7 @@ public class UpServiceImpl implements UpService {
 
     @Override
     public void createServices(Long microserviceId) {
+        log.info("Attempting to create services for microservice {}...", microserviceId);
         List<ServiceModel> services = this.microserviceService.getServicesOfMicroservice(microserviceId);
         Map<ServiceModel, List<VolumeModel>> volumeMap = services.stream()
                 .collect(Collectors.toMap(serviceModel -> serviceModel,
@@ -107,11 +110,14 @@ public class UpServiceImpl implements UpService {
                     , Collections.emptyList());
             deploymentService.createService(service, volumes, ports);
         }
+        log.info("Services of microservice {} have been created", microserviceId);
     }
 
     @Override
     public void runServices(HashMap<ServiceModel, List<ServiceModel>> serviceDependencyGraph) {
+        log.info("Attempting to run the services");
         if (isThereCircularDependency(serviceDependencyGraph)) {
+            log.error("Circular dependency was found for the serviceDependencyGraph.");
             throw new LaunchpadException(ResponseInfoEnum.BAD_REQUEST, "Circular dependency found. Fix circular dependency before running the services");
         }
 
@@ -119,5 +125,6 @@ public class UpServiceImpl implements UpService {
         for (ServiceModel service : servicesInTopologicalOrder) {
             deploymentService.runService(service.getServiceId());
         }
+        log.info("All the services have been started successfully.");
     }
 }

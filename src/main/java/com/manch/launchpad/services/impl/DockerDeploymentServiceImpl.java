@@ -13,6 +13,7 @@ import com.manch.launchpad.models.request.VolumeModel;
 import com.manch.launchpad.services.DeploymentService;
 import com.manch.launchpad.services.ServicesService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,7 @@ import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class DockerDeploymentServiceImpl implements DeploymentService {
@@ -47,7 +49,7 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
 
     @Override
     public ServiceModel createService(ServiceModel service, List<VolumeModel> volume, List<PortModel> port) {
-        System.out.println("YO");
+        log.info("Attempting to a docker container of service model: {}", service.toString());
         CreateContainerResponse containerResponse = this.dockerClient.createContainerCmd(service.getServiceImage())
                 .withHostConfig(HostConfig.newHostConfig()
                         .withBinds(volume.stream()
@@ -59,14 +61,16 @@ public class DockerDeploymentServiceImpl implements DeploymentService {
                 .withName(service.getName())
                 .withEnv(service.getEnv())
                 .exec();
-        System.out.println("DSKIP");
+        log.info("Docker container created successfully with container ID: {}", containerResponse.getId());
         service.setServiceId(containerResponse.getId());
         return servicesService.updateService(service);
     }
 
     @Override
     public void runService(String serviceId) {             // Container ID here which is given by docker
+        log.info("Attempting to run service: {}", serviceId);
         this.dockerClient.startContainerCmd(serviceId).exec();
+        log.info("Docker container started successfully with container ID: {}", serviceId);
     }
 
     @Override

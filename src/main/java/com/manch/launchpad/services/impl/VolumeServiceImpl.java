@@ -5,11 +5,13 @@ import com.manch.launchpad.models.request.VolumeModel;
 import com.manch.launchpad.repositories.VolumeRepository;
 import com.manch.launchpad.services.VolumeService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class VolumeServiceImpl implements VolumeService {
@@ -17,6 +19,7 @@ public class VolumeServiceImpl implements VolumeService {
 
     @Override
     public VolumeModel createVolume(VolumeModel volumeModel) {
+        log.info("Attempting to create volume {}", volumeModel);
         VolumeEntity volumeEntity = VolumeModel.toEntity(volumeModel);
         return VolumeModel.fromEntity(volumeRepository.save(volumeEntity));
     }
