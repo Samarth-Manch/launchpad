@@ -1,7 +1,7 @@
 package com.manch.launchpad.resources;
 
 import com.manch.launchpad.commons.responses.LaunchpadResponse;
-import com.manch.launchpad.models.request.DependencyServiceModel;
+import com.manch.launchpad.models.request.ServiceDependencyModel;
 import com.manch.launchpad.models.request.PortModel;
 import com.manch.launchpad.models.request.ServiceModel;
 import com.manch.launchpad.models.request.VolumeModel;
@@ -32,8 +32,8 @@ public class ServiceResource {
     }
 
     @RequestMapping(path = "/dependency", method = RequestMethod.POST)
-    public LaunchpadResponse<DependencyServiceModel> createServiceDependency(@RequestBody DependencyServiceModel dependencyServiceModel) {
-        return LaunchpadResponse.created(servicesService.createDependency(dependencyServiceModel));
+    public LaunchpadResponse<ServiceDependencyModel> createServiceDependency(@RequestBody ServiceDependencyModel serviceDependencyModel) {
+        return LaunchpadResponse.created(servicesService.createDependency(serviceDependencyModel));
     }
 
     @RequestMapping(path = "/volumes", method = RequestMethod.POST)

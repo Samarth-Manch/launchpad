@@ -22,4 +22,7 @@ public class ServiceDependencyEntity {
 
     @Column(name = "required_service_id", nullable = false)
     private String requiredServiceId;
+
+    @Column(name = "microservice_id", nullable = false)
+    private String microserviceId;
 }

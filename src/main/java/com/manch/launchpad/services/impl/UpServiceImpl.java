@@ -5,11 +5,13 @@ import com.manch.launchpad.commons.responses.ResponseInfoEnum;
 import com.manch.launchpad.models.request.*;
 import com.manch.launchpad.services.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Getter
 @Service
 @AllArgsConstructor
 public class UpServiceImpl implements UpService {
@@ -91,9 +93,12 @@ public class UpServiceImpl implements UpService {
         return false;
     }
 
-    private Map<ServiceModel, List<ServiceModel>> createDependencyGraph(Long id, List<DependencyServiceModel> dependencyList) {
+    private static Map<ServiceModel, List<ServiceModel>> createDependencyGraph(Long id,
+                                                                               List<ServiceDependencyModel> dependencyList,
+                                                                               MicroserviceService microserviceService,
+                                                                               ServicesService servicesService) {
         Map<ServiceModel, List<ServiceModel>> serviceDependencyGraph = new HashMap<>();
-        Map<String, ServiceModel> serviceMap = this.microserviceService.getServicesOfMicroservice(id)
+        Map<String, ServiceModel> serviceMap = microserviceService.getServicesOfMicroservice(id)
                 .stream()
                 .collect(Collectors.toMap(ServiceModel::getId, serviceModel -> serviceModel));
 
@@ -101,7 +106,7 @@ public class UpServiceImpl implements UpService {
             serviceDependencyGraph.put(serviceModel, new ArrayList<>());
         }
 
-        for (DependencyServiceModel dependency : dependencyList) {
+        for (ServiceDependencyModel dependency : dependencyList) {
             List<ServiceModel> services = serviceDependencyGraph.get(
                     servicesService.getService(dependency.getDependentServiceId()));
             services.add(servicesService.getService(dependency.getRequiredServiceId()));

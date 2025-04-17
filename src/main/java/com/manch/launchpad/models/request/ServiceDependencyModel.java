@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DependencyServiceModel {
+public class ServiceDependencyModel {
 
     private int id;
 
@@ -22,15 +22,18 @@ public class DependencyServiceModel {
     @NotBlank(message = "Required Service ID is required")
     private String requiredServiceId;
 
-    public static DependencyServiceModel fromEntity(ServiceDependencyEntity dependency) {
-        return DependencyServiceModel.builder()
+    @NotBlank(message = "Microservice ID is required")
+    private String microserviceId;
+
+    public static ServiceDependencyModel fromEntity(ServiceDependencyEntity dependency) {
+        return ServiceDependencyModel.builder()
                 .id(dependency.getId())
                 .dependentServiceId(dependency.getDependentServiceId())
                 .requiredServiceId(dependency.getRequiredServiceId())
                 .build();
     }
 
-    public static ServiceDependencyEntity toEntity(DependencyServiceModel dependency) {
+    public static ServiceDependencyEntity toEntity(ServiceDependencyModel dependency) {
         return ServiceDependencyEntity.builder()
                 .id(dependency.getId())
                 .dependentServiceId(dependency.getDependentServiceId())
