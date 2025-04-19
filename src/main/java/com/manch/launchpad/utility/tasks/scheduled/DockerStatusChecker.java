@@ -22,6 +22,7 @@ public class DockerStatusChecker {
         statusMap.forEach((serviceId, status) -> {
             try {
                 ServiceModel service = servicesService.getServiceByServiceId(serviceId);
+                if (service.getStatus() == null) return;
                 if(service.getStatus().equals(status)) return;
 
                 service.setStatus(status);
